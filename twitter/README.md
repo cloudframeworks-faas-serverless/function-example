@@ -5,6 +5,7 @@ This function exemplifies an authentication in Twitter API and get latest tweets
 ## Requirements
 
 - Functions API
+- fn 
 - Configure a [Twitter App](https://apps.twitter.com/) and [configure Customer Access and Access Token](https://dev.twitter.com/oauth/overview/application-owner-access-tokens).
 
 ## Development
