@@ -4,56 +4,51 @@ This function exemplifies an authentication in Twitter API and get latest tweets
 
 ## Requirements
 
-- IronFunctions API
+- Functions API
 - Configure a [Twitter App](https://apps.twitter.com/) and [configure Customer Access and Access Token](https://dev.twitter.com/oauth/overview/application-owner-access-tokens).
 
 ## Development
 
-### Building image locally
+### 构建本地镜像
 
 ```
-# SET BELOW TO YOUR DOCKER HUB USERNAME
-USERNAME=YOUR_DOCKER_HUB_USERNAME
-
+# 修改func.yaml文件，将name改成你自己的镜像名称。
 # build it
-./build.sh
-```
 
-### Publishing to DockerHub
+fn build
 
 ```
-# tagging
-docker run --rm -v "$PWD":/app treeder/bump patch
-docker tag $USERNAME/func-twitter:latest $USERNAME/func-twitter:`cat VERSION`
-
-# pushing to docker hub
-docker push $USERNAME/func-twitter
+### 本地测试
+```
+fn run
 ```
 
-### Testing image
+### 上传到镜像仓库
 
 ```
-./test.sh
+docker push <镜像名>
 ```
 
-## Running it on IronFunctions
+## 在平台运行
 
-### Let's define some environment variables
+### 首先设置必须的环境变量
 
 ```
 # Set your Function server address
-# Eg. 127.0.0.1:8080
+# Eg. api.faas.pro
+
 FUNCAPI=YOUR_FUNCTIONS_ADDRESS
 
+# 以下信息在 apps.twitter.com 申请和获取 (Requirements)[#Requirements]
 CUSTOMER_KEY="XXXXXX"
 CUSTOMER_SECRET="XXXXXX"
 ACCESS_TOKEN="XXXXXX"
 ACCESS_SECRET="XXXXXX"
 ```
 
-### Running with IronFunctions
+### Running with Functions
 
-With this command we are going to create an application with name `twitter`.
+创建应用
 
 ```
 curl -X POST --data '{
@@ -69,21 +64,19 @@ curl -X POST --data '{
 }' http://$FUNCAPI/v1/apps
 ```
 
-Now, we can create our route
+创建路由
 
 ```
 curl -X POST --data '{
     "route": {
-        "image": "'$USERNAME'/func-twitter",
+        "image": "<镜像名>",
         "path": "/tweets",
     }
 }' http://$FUNCAPI/v1/apps/twitter/routes
 ```
 
-#### Testing function
-
-Now that we created our IronFunction route, let's test our new route
+#### 云端运行试试？
 
 ```
-curl -X POST --data '{"username": "getiron"}' http://$FUNCAPI/r/twitter/tweets
+curl -X POST --data '{"username": "zengqingguo"}' http://$FUNCAPI/r/twitter/tweets
 ```
