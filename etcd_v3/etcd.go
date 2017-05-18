@@ -34,7 +34,7 @@ func main() {
 		logrus.Error("read data from stdin error.", err.Error())
 		return
 	}
-	method := gjson.Get(string(in), "method")
+	method := gjson.Get(string(in), "method").String()
 	cli, err := clientv3.New(clientv3.Config{
 		Endpoints:   Endpoints,
 		DialTimeout: 5 * time.Second,
@@ -47,7 +47,7 @@ func main() {
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	switch strings.ToUpper(method) {
 	case "GET":
-		key := gjson.Get(string(in), "key")
+		key := gjson.Get(string(in), "key").String()
 		resp, err := cli.Get(ctx, key)
 		cancel()
 		if err != nil {
@@ -57,8 +57,8 @@ func main() {
 			fmt.Printf("%s : %s\n", ev.Key, ev.Value)
 		}
 	case "PUT":
-		key := gjson.Get(string(in), "key")
-		value := gjson.Get(string(in), "value")
+		key := gjson.Get(string(in), "key").String()
+		value := gjson.Get(string(in), "value").String()
 		_, err := cli.Put(ctx, key, value)
 		cancel()
 		if err != nil {
