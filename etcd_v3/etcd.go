@@ -17,7 +17,6 @@ import (
 )
 
 func main() {
-	logrus.SetOutput(os.Stderr)
 	var Endpoints []string
 	etcdServer := os.Getenv("ETCD_SERVER")
 	if etcdServer == "" {
@@ -64,7 +63,7 @@ func main() {
 		if err != nil {
 			handleError(err)
 		} else {
-			logrus.Info("Put success.")
+			fmt.Printf("Put %s success.", key)
 		}
 	}
 	defer cli.Close()

@@ -25,10 +25,10 @@ fn run
 
 ```
 
-### 上传到镜像仓库
+### 部署应用到仓库
 
 ```
-docker push <镜像名>
+fn deploy etcd_v3
 ```
 
 ## 在平台运行
@@ -77,4 +77,5 @@ curl -X POST --data '{
 ```
 curl -X POST --data '{"method": "put","key":"/hello","value":"hello word"}' http://$FUNCAPI/r/etcd_v3/command
 curl -X POST --data '{"method": "get","key":"/hello"}' http://$FUNCAPI/r/etcd_v3/command
+
 ```
